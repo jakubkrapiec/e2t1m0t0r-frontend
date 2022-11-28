@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-    name: Build Flutter Web
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -16,7 +15,7 @@ jobs:
     - name: Archive Production Artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        retention-days: 36500
+        retention-days: 90
         path: build/web/
   deploy:
     needs: build

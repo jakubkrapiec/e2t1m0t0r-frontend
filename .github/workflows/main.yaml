@@ -1,4 +1,4 @@
-name: e2t1m0t0r_frontend
+name: Run tests and analysis
 
 on: [pull_request, push]
 
