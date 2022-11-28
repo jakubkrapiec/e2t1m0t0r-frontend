@@ -1,0 +1,20 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_web:
+    name: Build Flutter Web
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+    - run: flutter pub get
+    - run: flutter build web --target lib/main_production.dart --release
+    - name: Archive Production Artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        retention-days: 36500
+        path: build/web/
