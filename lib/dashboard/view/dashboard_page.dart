@@ -55,7 +55,7 @@ class EstimateText extends StatelessWidget {
     final seconds = context.select<DashboardCubit, int>((cubit) => cubit.state);
     final hours = seconds.toDouble() / 3600;
     return Text(
-      seconds > 0 ? '${hours.toStringAsFixed(2)} hours' : l10n.beforeEstimationInfo,
+      seconds > 0 ? '${hours.toStringAsFixed(2)} ${l10n.hours}' : l10n.beforeEstimationInfo,
       style: theme.textTheme.bodyMedium,
     );
   }
@@ -66,9 +66,10 @@ class EstimateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return TextButton(
       onPressed: () => _onPressed(context.read<DashboardCubit>()),
-      child: const Text('Estimate'),
+      child: Text(l10n.estimate),
     );
   }
 
@@ -76,8 +77,6 @@ class EstimateButton extends StatelessWidget {
     final picked = await FilePicker.platform.pickFiles();
     if (picked != null) {
       unawaited(cubit.processModel(picked.files.single.bytes!));
-    } else {
-      print('file null');
     }
   }
 }

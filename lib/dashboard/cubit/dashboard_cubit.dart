@@ -8,16 +8,13 @@ class DashboardCubit extends Cubit<int> {
   DashboardCubit() : super(0);
 
   Future<void> processModel(Uint8List modelFile) async {
-    print('enter');
     final dio = Dio();
 
     final formData = FormData.fromMap({
       'file': MultipartFile.fromBytes(modelFile, filename: 'model.stl'),
     });
 
-    print('sending');
     final response = await dio.post<String>(_apiEndpointUrl, data: formData);
-    print(response.data);
     if (response.statusCode == 200) {
       final body = jsonDecode(response.data!) as Map;
       emit(body['duration'] as int);

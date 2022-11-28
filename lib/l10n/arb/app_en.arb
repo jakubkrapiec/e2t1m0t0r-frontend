@@ -1,5 +1,7 @@
 {
     "@@locale": "en",
     "appBarTitle": "e2t1m0t0r",
-    "beforeEstimationInfo": "Please use the button below to select a .stl file"
+    "beforeEstimationInfo": "Please use the button below to select a .stl file",
+    "hours": "hours",
+    "estimate": "Estimate"
 }
