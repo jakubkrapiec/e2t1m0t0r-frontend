@@ -67,9 +67,17 @@ class EstimateText extends StatelessWidget {
         .select<DashboardBloc, Map<String, int>>((bloc) => bloc.state.fileDurations)
         .map((name, duration) => MapEntry(name, duration.toDouble() / 3600));
     return Text(
-      secondsMap.toString(),
+      _formatHoursData(secondsMap),
       style: theme.textTheme.bodyMedium,
     );
+  }
+
+  String _formatHoursData(Map<String, double> modelsDurations) {
+    final buffer = StringBuffer();
+    for (final pair in modelsDurations.entries) {
+      buffer.write('${pair.key}: ${pair.value.toStringAsFixed(2)} hours\n');
+    }
+    return buffer.toString();
   }
 }
 

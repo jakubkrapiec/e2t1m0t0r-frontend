@@ -34,8 +34,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     } else {
       final formDataMap = <String, dynamic>{'files_number': event.models.length};
       for (var i = 0; i < event.models.length; i++) {
-        formDataMap.putIfAbsent('file_$i', () => MultipartFile.fromBytes(event.models.values.toList()[i]));
+        formDataMap.putIfAbsent(
+          'file_$i',
+          () => MultipartFile.fromBytes(event.models.values.toList()[i], filename: event.models.keys.toList()[i]),
+        );
       }
+
       final formData = FormData.fromMap(formDataMap);
       final response = await dio.post<String>('$_apiUrl/estimate_multiple', data: formData);
       if (response.statusCode == 200) {
