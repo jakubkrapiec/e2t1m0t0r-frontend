@@ -48,7 +48,7 @@ class EstimatingArea extends StatelessWidget {
           const EstimateText(),
           HorizontalGaps.M,
           if (bloc.state.processingStage == DashboardProcessingStage.loading)
-            const ProgressIndicator()
+            const CircularProgressIndicator()
           else
             const EstimateButton(),
         ],
@@ -63,53 +63,12 @@ class EstimateText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = context.l10n;
-    final seconds = context.select<DashboardBloc, int>((bloc) => bloc.state.duration);
-    final hours = seconds.toDouble() / 3600;
+    final secondsMap = context
+        .select<DashboardBloc, Map<String, int>>((bloc) => bloc.state.fileDurations)
+        .map((name, duration) => MapEntry(name, duration.toDouble() / 3600));
     return Text(
-      seconds > 0 ? '${hours.toStringAsFixed(2)} ${l10n.hours}' : l10n.beforeEstimationInfo,
+      secondsMap.toString(),
       style: theme.textTheme.bodyMedium,
-    );
-  }
-}
-
-class ProgressIndicator extends StatefulWidget {
-  const ProgressIndicator({super.key});
-
-  @override
-  State<ProgressIndicator> createState() => _ProgressIndicatorState();
-}
-
-class _ProgressIndicatorState extends State<ProgressIndicator> with TickerProviderStateMixin {
-  static const _expectedWaitingTime = Duration(seconds: 30);
-
-  var _progress = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => setState(() {
-        _progress = 1;
-      }),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: Dimens.XL * 3,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: AnimatedContainer(
-            width: Dimens.XL * 3 * _progress,
-            height: Dimens.M,
-            color: Theme.of(context).primaryColor,
-            duration: _expectedWaitingTime,
-          ),
-        ),
-      ),
     );
   }
 }
@@ -130,9 +89,10 @@ class EstimateButton extends StatelessWidget {
     final picked = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['stl'],
+      allowMultiple: true,
     );
-    if (picked != null && picked.files.single.bytes != null) {
-      bloc.add(ProcessSingleModelEvent(picked.files.single.bytes!));
+    if (picked != null) {
+      bloc.add(ProcessModelsEvent(Map.fromEntries(picked.files.map((file) => MapEntry(file.name, file.bytes!)))));
     }
   }
 }

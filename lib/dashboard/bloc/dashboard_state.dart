@@ -1,9 +1,9 @@
 class DashboardState {
   DashboardState()
-      : duration = 0,
+      : fileDurations = {},
         processingStage = DashboardProcessingStage.idle;
-  DashboardState.fromValues(this.duration, this.processingStage);
-  final int duration;
+  DashboardState.fromValues(this.fileDurations, this.processingStage);
+  final Map<String, int> fileDurations;
   final DashboardProcessingStage processingStage;
 }
 
