@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:drag_and_drop_flutter/drag_and_drop_flutter.dart';
 import 'package:e2t1m0t0r_frontend/dashboard/bloc/dashboard_events.dart';
 import 'package:e2t1m0t0r_frontend/dashboard/bloc/dashboard_state.dart';
 import 'package:e2t1m0t0r_frontend/dashboard/dashboard.dart';
@@ -88,15 +87,9 @@ class EstimateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return SizedBox(
-      height: 300,
-      width: 300,
-      child: DragDropArea(
-        child: TextButton(
-          onPressed: () => _onPressed(context.read<DashboardBloc>()),
-          child: Text(l10n.estimate),
-        ),
-      ),
+    return TextButton(
+      onPressed: () => _onPressed(context.read<DashboardBloc>()),
+      child: Text(l10n.estimate),
     );
   }
 
