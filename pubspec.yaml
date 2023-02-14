@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   bloc: ^8.1.0
-  dio: ^4.0.6
+  dio: ^5.0.0
   drag_and_drop_flutter: ^0.3.0
   file_picker: ^5.2.3
   flutter:
